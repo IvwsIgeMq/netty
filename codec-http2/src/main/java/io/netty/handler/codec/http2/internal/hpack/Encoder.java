@@ -52,20 +52,20 @@ public final class Encoder {
             AsciiString.EMPTY_STRING, Integer.MAX_VALUE, null);
     private final HuffmanEncoder huffmanEncoder = new HuffmanEncoder();
     private final byte hashMask;
-    private int size;
-    private int capacity;
+    private long size;
+    private long capacity;
 
     /**
      * Creates a new encoder.
      */
-    public Encoder(int maxHeaderTableSize) {
+    public Encoder(long maxHeaderTableSize) {
         this(maxHeaderTableSize, 16);
     }
 
     /**
      * Creates a new encoder.
      */
-    public Encoder(int maxHeaderTableSize, int arraySizeHint) {
+    public Encoder(long maxHeaderTableSize, int arraySizeHint) {
         if (maxHeaderTableSize < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + maxHeaderTableSize);
         }
@@ -133,7 +133,7 @@ public final class Encoder {
     /**
      * Set the maximum table size.
      */
-    public void setMaxHeaderTableSize(ByteBuf out, int maxHeaderTableSize) {
+    public void setMaxHeaderTableSize(ByteBuf out, long maxHeaderTableSize) {
         if (maxHeaderTableSize < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + maxHeaderTableSize);
         }
@@ -142,13 +142,13 @@ public final class Encoder {
         }
         capacity = maxHeaderTableSize;
         ensureCapacity(0);
-        encodeInteger(out, 0x20, 5, maxHeaderTableSize);
+        encodeInteger(out, 0x20, 5, (int) maxHeaderTableSize);
     }
 
     /**
      * Return the maximum table size.
      */
-    public int getMaxHeaderTableSize() {
+    public long getMaxHeaderTableSize() {
         return capacity;
     }
 
@@ -252,7 +252,7 @@ public final class Encoder {
     /**
      * Return the size of the dynamic table. Exposed for testing.
      */
-    int size() {
+    long size() {
         return size;
     }
 
