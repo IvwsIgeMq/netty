@@ -169,7 +169,7 @@ final class DynamicTable {
             }
         }
 
-        int maxEntries = (int) capacity / HEADER_ENTRY_OVERHEAD;
+        int maxEntries = (int) (capacity / HEADER_ENTRY_OVERHEAD);
         if (capacity % HEADER_ENTRY_OVERHEAD != 0) {
             maxEntries++;
         }
