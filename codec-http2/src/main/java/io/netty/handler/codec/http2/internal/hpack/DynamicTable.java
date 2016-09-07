@@ -31,6 +31,8 @@
  */
 package io.netty.handler.codec.http2.internal.hpack;
 
+import static io.netty.handler.codec.http2.Http2CodecUtil.MAX_HEADER_TABLE_SIZE;
+import static io.netty.handler.codec.http2.Http2CodecUtil.MIN_HEADER_TABLE_SIZE;
 import static io.netty.handler.codec.http2.internal.hpack.HeaderField.HEADER_ENTRY_OVERHEAD;
 
 final class DynamicTable {
@@ -150,10 +152,9 @@ final class DynamicTable {
      * the size of the table is less than or equal to the maximum size.
      */
     public void setCapacity(long capacity) {
-        if (capacity < 0) {
-            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
+        if (capacity < MIN_HEADER_TABLE_SIZE || capacity > MAX_HEADER_TABLE_SIZE) {
+            throw new IllegalArgumentException("capacity is invalid: " + capacity);
         }
-
         // initially capacity will be -1 so init won't return here
         if (this.capacity == capacity) {
             return;

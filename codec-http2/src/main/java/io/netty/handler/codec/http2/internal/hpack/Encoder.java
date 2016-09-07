@@ -68,8 +68,8 @@ public final class Encoder {
      * Creates a new encoder.
      */
     public Encoder(long maxHeaderTableSize, int arraySizeHint) {
-        if (maxHeaderTableSize < 0) {
-            throw new IllegalArgumentException("Illegal Capacity: " + maxHeaderTableSize);
+        if (maxHeaderTableSize < MIN_HEADER_TABLE_SIZE || maxHeaderTableSize > MAX_HEADER_TABLE_SIZE) {
+            throw new IllegalArgumentException("maxHeaderTableSize is invalid: " + maxHeaderTableSize);
         }
         capacity = maxHeaderTableSize;
         // Enforce a bound of [2, 128] because hashMask is a byte. The max possible value of hashMask is one less
