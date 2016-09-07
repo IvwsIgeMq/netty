@@ -37,6 +37,8 @@ import io.netty.util.CharsetUtil;
 
 import java.util.Arrays;
 
+import static io.netty.handler.codec.http2.Http2CodecUtil.MAX_HEADER_TABLE_SIZE;
+import static io.netty.handler.codec.http2.Http2CodecUtil.MIN_HEADER_TABLE_SIZE;
 import static io.netty.handler.codec.http2.internal.hpack.HpackUtil.IndexType.INCREMENTAL;
 import static io.netty.handler.codec.http2.internal.hpack.HpackUtil.IndexType.NEVER;
 import static io.netty.handler.codec.http2.internal.hpack.HpackUtil.IndexType.NONE;
@@ -134,8 +136,8 @@ public final class Encoder {
      * Set the maximum table size.
      */
     public void setMaxHeaderTableSize(ByteBuf out, long maxHeaderTableSize) {
-        if (maxHeaderTableSize < 0) {
-            throw new IllegalArgumentException("Illegal Capacity: " + maxHeaderTableSize);
+        if (maxHeaderTableSize < MIN_HEADER_TABLE_SIZE || maxHeaderTableSize > MAX_HEADER_TABLE_SIZE) {
+            throw new IllegalArgumentException("maxHeaderTableSize is invalid: " + maxHeaderTableSize);
         }
         if (capacity == maxHeaderTableSize) {
             return;
